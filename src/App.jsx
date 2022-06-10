@@ -13,6 +13,7 @@ function App() {
   const [connect, setConnected] = useState("Connect wallet");
   const [value, setValue] = useState();
   const [Timing, setTiming] = useState();
+  const [Tokens, setTokens] = useState();
 
   useEffect(() => {
     checkIfWalletConnected();
@@ -115,7 +116,7 @@ function App() {
       }
 
     } catch (error) {
-      console.log("Error from RaisedAmount", error)
+      console.log("Error from Investing", error)
 
     }
 
@@ -139,8 +140,31 @@ function App() {
 
       }
     } catch (error) {
-      console.log("Error from Investing", error)
+      console.log("Error from Timer", error)
     }
+  }
+
+  const Check_Allocated = async () => {
+    try {
+      const { ethereum } = window;
+      if (currentAccount) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+          contractAddress,
+          contract_abi,
+          signer
+        )
+        let tx = await contract.balances(currentAccount);
+        console.log(tx);
+        setTokens(JSON.parse(tx));
+
+
+      }
+    } catch (error) {
+      console.log("Error from Check_allocated", error)
+    }
+
   }
 
 
@@ -195,6 +219,15 @@ function App() {
           onClick={Timer}>Check End Time
         </button>
         <h3>ICO End Time: {Timing}</h3>
+
+      </div>
+
+      <div>
+        <button
+          style={{ margin: '1rem' }}
+          onClick={Check_Allocated}>See my tokens
+        </button>
+        <h3>Your allocated Tokens: {Tokens}</h3>
 
       </div>
 
