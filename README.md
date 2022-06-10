@@ -1,5 +1,9 @@
 # ICO-Inital-Coin-Offering
 
+Fork this file
+
+use npm install then 
+
 To Run this code use npm run dev
 
 This following code is part of my Blockchain course 
